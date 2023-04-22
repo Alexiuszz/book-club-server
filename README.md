@@ -1,2 +1,2 @@
-# book-club-server
- Server for book club server, with PostgreSQL DB
+# Book Club Server
+ NodeJs Server for the bookclub website, with Postgresql DB.
