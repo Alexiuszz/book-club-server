@@ -1,12 +1,5 @@
 var bcrypt = require("bcryptjs");
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: "me",
-  host: "localhost",
-  database: "bookclub",
-  password: "password",
-  port: 5432,
-});
+const { pool } = require("../utility/db");
 
 const checkEmail = (req, res, next) => {
   const { email } = req.body;

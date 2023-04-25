@@ -1,11 +1,6 @@
 var express = require("express");
 const apicache = require("apicache");
-const {
-  SearchByTitle,
-  SearchByEdition,
-  SearchByWork,
-} = require("../utility/bookSearch");
-const { searchBook } = require("../middleware/books");
+const { searchBook, addBooks } = require("../middleware/books");
 var router = express.Router();
 
 //  OL_id varchar(13),
@@ -23,8 +18,9 @@ var router = express.Router();
 // Init cache
 let cache = apicache.middleware;
 
-router.get("/title/:title", cache("1 week"), searchBook, (req, res) => {
-  res.json({books:req.books})
+router.use(cache("1 week"));
+router.get("/title/:title", searchBook, addBooks, (req, res) => {
+  res.json({ books: req.newBooks, books: req.books });
 });
 
 module.exports = router;
