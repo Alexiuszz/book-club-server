@@ -2,8 +2,8 @@ const {
   searchAuthors,
   getAuthor,
 } = require("../utility/authorSearch");
-const { pool } = require("../utility/db");
 const { generateId } = require("../utility/generateId");
+const db = require("../db");
 
 const searchAuthor = (req, res, next) => {
   const author = req.params.name;
@@ -24,7 +24,6 @@ const searchAuthor = (req, res, next) => {
     .then((authorsRes) => {
       var authors = authorsRes.map((authorRes) => authorRes.body);
       //       res.json({ authors: authors });
-
       let newAuthors = [];
       authors.forEach((author, i) => {
         newAuthors.push({
@@ -47,28 +46,29 @@ const searchAuthor = (req, res, next) => {
       next();
     })
     .catch((err) => {
-      res.status(500).send(err);
+      next(err);
     });
 };
 
 const addAuthors = (req, res, next) => {
   let authors = req.authors;
   let newAuthors = [];
+  next();
   authors.forEach((author) => {
-    pool.query(
+    db.query(
       "SELECT * FROM authors WHERE OL_id = $1",
       [author.OL_id],
       (error, results) => {
         if (error) throw error;
         if (!(results.rows.length > 0)) {
-          pool.query(
+          db.query(
             "SELECT count(BC_id) as length FROM authors",
             (error, results) => {
               let BC_id = generateId(author, results.rows[0].length);
               let birth_date =
                 author.birth_date &&
                 new Date(author.birth_date.toString());
-              pool.query(
+              db.query(
                 "INSERT INTO authors (OL_id,BC_id,name,works_count,bio,photo,top_work,birth_date,links ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING BC_id",
                 [
                   author.OL_id,
@@ -82,7 +82,7 @@ const addAuthors = (req, res, next) => {
                   author.links,
                 ],
                 (err, results) => {
-                  if (err) throw err;
+                  if (err) throw next(err);
                   newAuthors.push(results.rows[0].BC_id);
                 }
               );
@@ -94,8 +94,8 @@ const addAuthors = (req, res, next) => {
   });
   console.log(newAuthors.length);
   req.newAuthors = newAuthors.length;
-  next();
 };
+
 module.exports = {
   searchAuthor,
   addAuthors,

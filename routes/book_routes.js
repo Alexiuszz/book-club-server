@@ -19,7 +19,9 @@ var router = express.Router();
 let cache = apicache.middleware;
 
 router.use(cache("1 week"));
-router.get("/title/:title", searchBook, addBooks, (req, res) => {
+
+//Search title in Open Library
+router.get("/OL/title/:title", searchBook, addBooks, (req, res) => {
   res.json({ books: req.newBooks, books: req.books });
 });
 

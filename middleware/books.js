@@ -2,8 +2,8 @@ const {
   SearchByWork,
   SearchByTitle,
 } = require("../utility/bookSearch");
-const { pool } = require("../utility/db");
 const { generateId } = require("../utility/generateId");
+const db = require("../db");
 
 const searchBook = (req, res, next) => {
   var title = req.params.title;
@@ -48,19 +48,20 @@ const searchBook = (req, res, next) => {
 
 const addBooks = (req, res, next) => {
   let books = req.books;
-  let newBooksCount =0;
+  let newBooksCount =0;  
+  next();
   books.forEach((book) => {
-    pool.query(
+    db.query(
       "SELECT * FROM books WHERE OL_id = $1",
       [book.OL_id],
       (error, results) => {
         if (error) throw error;
         if (!(results.rows.length > 0)) {
           newBooksCount++;
-          pool.query("SELECT * FROM books", (error, results) => {
-            let BC_id = generateId(book, results.rows.length);
+          db.query("SELECT count(BC_id) as length FROM books", (error, results) => {
+            let BC_id = generateId(book, results.rows[0].length);
             let published = new Date(book.published.toString());
-            pool.query(
+            db.query(
               "INSERT INTO books (OL_id,BC_id,title,author_name,description,covers,places,published,people,subjects,links ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING BC_id",
               [
                 book.OL_id,
@@ -85,7 +86,6 @@ const addBooks = (req, res, next) => {
     );
   });
   req.newBooks = newBooksCount; 
-  next();
 };
 module.exports = {
   searchBook,

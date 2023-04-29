@@ -22,7 +22,7 @@ router.use(cache("1 week"));
 	links json [],
 	top_work varchar,
         */
-router.get("/name/:name", searchAuthor, addAuthors, (req, res) => {
+router.get("/OL/name/:name", searchAuthor, addAuthors, (req, res) => {
   res.json({ authors: req.authors });
 });
 

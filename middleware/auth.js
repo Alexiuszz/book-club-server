@@ -1,9 +1,9 @@
 var bcrypt = require("bcryptjs");
-const { pool } = require("../utility/db");
+const db = require("../db")
 
 const checkEmail = (req, res, next) => {
   const { email } = req.body;
-  pool.query(
+  db.query(
     "SELECT * FROM users WHERE email = $1",
     [email],
     (err, results) => {
