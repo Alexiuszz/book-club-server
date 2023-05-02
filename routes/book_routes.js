@@ -1,5 +1,6 @@
 var express = require("express");
 const apicache = require("apicache");
+const queries = require("../middleware/queries");
 const { searchBook, addBooks } = require("../middleware/books");
 var router = express.Router();
 
@@ -23,6 +24,11 @@ router.use(cache("1 week"));
 //Search title in Open Library
 router.get("/OL/title/:title", searchBook, addBooks, (req, res) => {
   res.json({ books: req.newBooks, books: req.books });
+});
+
+
+router.get("/:bookId", queries.getBook, (req, res) => {
+	res.json({book: req.book});
 });
 
 module.exports = router;

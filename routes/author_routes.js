@@ -4,6 +4,7 @@ const {
   searchAuthor,
   addAuthors,
 } = require("../middleware/authorMiddlewares");
+const  queries = require("../middleware/queries")
 var router = express.Router();
 
 // Init cache
@@ -26,4 +27,7 @@ router.get("/OL/name/:name", searchAuthor, addAuthors, (req, res) => {
   res.json({ authors: req.authors });
 });
 
+router.get("/:authorId", queries.getAuthor, (req, res) => {
+	res.json({author: req.author});
+});
 module.exports = router;
