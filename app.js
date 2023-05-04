@@ -4,6 +4,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors")
+var app = express();
+const port = 3000;
+
 
 app.use(cors({
   origin: "http://127.0.0.1:5173"
@@ -14,8 +17,7 @@ var booksRouter = require("./routes/book_routes");
 var authRouter = require("./routes/auth_routes");
 var authorsRouter = require("./routes/author_routes");
 var searchRouter = require("./routes/search_routes");
-var app = express();
-const port = 3000;
+
 
 app.use(logger("dev"));
 app.use(express.json());

@@ -21,6 +21,10 @@ router.get(
 router.get("/title/:search", queries.searchBooksTitle, (req, res) => {
   res.json({ books: req.books });
 });
+// Search subjects
+router.get("/subject/:search", queries.searchBooksBySubject, (req, res) => {
+  res.json({ books: req.books });
+});
 // Search author in Book Club DB
 router.get(
   "/author/:search",

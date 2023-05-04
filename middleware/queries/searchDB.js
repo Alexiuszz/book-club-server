@@ -51,4 +51,16 @@ module.exports = {
       }
     );
   },
+  searchBooksBySubject: (req, res, next) => {
+    var searchString = req.params.search.replaceAll("+", "|");
+    db.query(
+      "(SELECT bc_id, title, subjects, author_name, covers from books WHERE subjects_tsvector_column @@ to_tsquery('subject_search_config', $1))",
+      [searchString],
+      (err, results) => {
+        if (err) next(err);
+        req.books = results.rows;
+        next();
+      }
+    );
+  },
 };

@@ -3,6 +3,7 @@ const {
   searchAuthorsName,
   getAuthor,
   getBook,
+  searchBooksBySubject,
 } = require("./searchDB");
 
 module.exports = {
@@ -10,4 +11,5 @@ module.exports = {
   searchAuthorsName,
   getAuthor,
   getBook,
+  searchBooksBySubject,
 };
