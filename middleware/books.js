@@ -30,6 +30,7 @@ const searchBook = (req, res, next) => {
           languages: docs[i].language,
           publisher: docs[i].publisher,
           OL_id: docs[i].key.split("/")[2],
+          author_id: books.author_key.split("/")[2],
           covers: book.covers,
           places: book.subject_places,
           subjects: book.subjects,
@@ -62,12 +63,13 @@ const addBooks = (req, res, next) => {
             let BC_id = generateId(book, results.rows[0].length);
             let published = new Date(book.published.toString());
             db.query(
-              "INSERT INTO books (OL_id,BC_id,title,author_name,description,covers,places,published,people,subjects,links ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING BC_id",
+              "INSERT INTO books (OL_id,BC_id,title,author_name,author_id,description,covers,places,published,people,subjects,links ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING BC_id",
               [
                 book.OL_id,
                 BC_id,
                 book.title,
                 book.authorName,
+                book.author_id,
                 book.description,
                 book.covers,
                 book.places,
