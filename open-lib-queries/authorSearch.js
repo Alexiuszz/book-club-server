@@ -2,7 +2,7 @@ const needle = require("needle");
 const {
   OPEN_LIB_AUTHORS,
   OPEN_LIB_AUTHOR,
-} = require("../utility/constants");
+} = require("../../utility/constants");
 
 const searchAuthors = (author) =>
   needle("get", `${OPEN_LIB_AUTHORS}${author}`);

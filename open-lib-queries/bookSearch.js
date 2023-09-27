@@ -4,7 +4,7 @@ const {
   OPEN_LIB_EDITION,
   OPEN_LIB_COVERS,
   OPEN_LIB_WORKS,
-} = require("../utility/constants");
+} = require("../../utility/constants");
 const SearchByTitle = (text) => {
   return needle("get", `${OPEN_LIB_SEARCH}?title=${text}`);
 };

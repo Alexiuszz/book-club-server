@@ -1,7 +1,7 @@
 const {
   SearchByWork,
   SearchByTitle,
-} = require("../utility/bookSearch");
+} = require("../pg/open-lib-queries/bookSearch");
 const { generateId } = require("../utility/generateId");
 const db = require("../db");
 

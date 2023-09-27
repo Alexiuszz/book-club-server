@@ -1,7 +1,7 @@
 const {
   searchAuthors,
   getAuthor,
-} = require("../utility/authorSearch");
+} = require("../pg/open-lib-queries/authorSearch");
 const { generateId } = require("../utility/generateId");
 const db = require("../db");
 
