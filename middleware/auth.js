@@ -17,7 +17,7 @@ const checkEmail = (req, res, next) => {
 
 const authenticate = (req, res, next) => {
   const { email, password } = req.body;
-  pool.query(
+  db.query(
     "SELECT * FROM users WHERE email = $1",
     [email],
     (err, results) => {
